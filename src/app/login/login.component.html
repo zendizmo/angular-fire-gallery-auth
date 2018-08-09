@@ -1,0 +1,57 @@
+
+<div class="container">
+  <div class="row" *ngIf="userObj === undefined">
+
+   <div class="col-md-12">
+       <!-- Container for the demo -->
+       <div id="login-section">
+         &nbsp;&nbsp;&nbsp;
+         <button class="btn btn-warning" (click)="onSignUp()" id="quickstart-sign-up" name="signup">Sign Up</button>
+         &nbsp;&nbsp;&nbsp;
+         <button class="btn btn-default" (click)="onSendPasswordReset()" id="quickstart-password-reset" name="verify-email">Send Password Reset Email</button>
+         <hr>
+         <h2>Please login</h2>
+         <div class="form-group">
+           <p>Enter an email and password below and either sign in to an existing account or sign up</p>
+
+           <input class="form-control" style="display:inline; width:auto;" type="text"  [(ngModel)]="useremail"  id="useremail" name="useremail" placeholder="Email"/>
+           &nbsp;&nbsp;&nbsp;
+           <input class="form-control" style="display:inline; width:auto;" type="password"  [(ngModel)]="password"  id="password" name="password" placeholder="Password"/>
+           (or)
+           <button class="btn btn-info btn-round" (click)="onGLogin()" >
+             <i class="fab fa-google" (click)="onGLogin()"></i>
+           </button>
+           <button class="btn btn-primary btn-round" (click)="onFBLogin()" >
+             <i class="fab fa-facebook-square" (click)="onGLogin()"></i>
+           </button>
+           <button class="btn btn-dark btn-round" (click)="onGHubLogin()" >
+             <i class="fab fa-github" (click)="onGLogin()"></i>
+           </button>
+           <br/>
+       </div>
+     </div>
+     <button class="btn btn-primary"
+     (click)="onSignIn()"
+     id="quickstart-sign-in"
+     name="signin"
+     style="margin : auto;"
+     >Sign In</button>
+     <!-- Container where we'll display the user details -->
+     <!-- <div class="quickstart-user-details-container">
+       Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
+       <div>Firebase auth <code>currentUser</code> object value:</div>
+       <pre><code id="quickstart-account-details">null</code></pre>
+
+     </div> -->
+   </div>
+ </div>
+ <hr>
+ <div *ngIf="authServ.user | async as user">
+   <h3>Hello {{user?.displayName || 'User'}}</h3>
+   <br>
+   <img [src]="user.photoURL" class="display-img"/>
+   <hr>
+   <app-gallery #gallery></app-gallery>
+ </div>
+ <app-notification (delEvent)="gallery.deleteItem()"></app-notification>
+</div>

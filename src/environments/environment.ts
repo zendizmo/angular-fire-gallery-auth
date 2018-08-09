@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: '<<From your application>>',
-    authDomain: '<<From your application>>',
-    databaseURL: '<<From your application>>',
-    projectId: '<<From your application>>',
-    storageBucket: '<<From your application>>',
-    messagingSenderId: '<<From your application>>'
+    apiKey: 'XXXX-XXXX',
+    authDomain: 'XXXXX',
+    databaseURL: 'XXXXX',
+    projectId: 'XXXXXX',
+    storageBucket: 'XXXXX.appspot.com',
+    messagingSenderId: 'XXXXX'
   }
 };
 

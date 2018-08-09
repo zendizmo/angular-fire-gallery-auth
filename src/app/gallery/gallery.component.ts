@@ -4,15 +4,16 @@ import {FormGroup,
         ReactiveFormsModule,
         FormBuilder} from '@angular/forms';
 import * as $ from 'jquery';
+import * as firebase from 'firebase/app';
 import { NotificationServicesService } from '../notification-services.service';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable, Timestamp } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 
 
-export interface Image { id: string; imagePath: string; imageURL: string; imageName: string; maintTs: number; }
+export interface Image { id: string; imagePath: string; imageURL: string; imageName: string; userEmail: string; maintTs: number; }
 
 @Component({
   selector: 'app-gallery',
@@ -80,6 +81,7 @@ export class GalleryComponent implements OnInit {
 
   startUpload(event: FileList) {
     // File object
+
     const file = event.item(0);
     console.log(file);
 
@@ -116,7 +118,9 @@ export class GalleryComponent implements OnInit {
             const imageName = this.imageNm;
             // To store timestamp of the image before being inserted in firestore
             const maintTs = Date.now();
-            const image: Image = { id, imagePath, imageURL, imageName, maintTs };
+            const user = firebase.auth().currentUser;
+            const userEmail = user.email;
+            const image: Image = { id, imagePath, imageURL, imageName, userEmail, maintTs };
             // image object inserted in image collection (AngularFirestoreCollection)
             this.imagesCollection.doc(id).set(image);
             // setting the image name back to blank
@@ -130,14 +134,16 @@ export class GalleryComponent implements OnInit {
   }
 
   loadImages() {
-    this.imagesCollection = this.afs.collection<Image>('images', ref => ref.orderBy('maintTs', 'desc'));
+    const userEmail = firebase.auth().currentUser.email;
+    this.imagesCollection = this.afs.collection<Image>('images', ref => ref.where('userEmail', '==', userEmail).orderBy('maintTs', 'desc'));
     this.images = this.imagesCollection.valueChanges();
   }
   maximizeImage(image) {
     this.modalImage = image;
+    console.log(image);
     this.noteSvc.setNotification(
       image.imageName,
-      image.imagePath
+      image.imageURL
       );
       $('.max-img-notification-btn').click();
   }

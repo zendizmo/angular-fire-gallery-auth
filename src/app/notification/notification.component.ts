@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class NotificationComponent implements OnInit {
 
   modalItem: string;
+  path = 'https://firebasestorage.googleapis.com/v0/b/firegallery-fbe8d.appspot.com/o/';
   notification = {
     title: '',
     message: ''
